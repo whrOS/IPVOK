@@ -1,0 +1,6 @@
+function [EC, PSNR, Kend] = Embedding(NL, Mmax, Mmin, Dmax, Dmin, T1, T2)
+
+[A, B] = size()
+
+end
+

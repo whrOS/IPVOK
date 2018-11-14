@@ -1,0 +1,35 @@
+function [OptT1, OptT2] = GetTs(NL, HPVOs, HIPVOs, Payload)
+
+NLs = unique(NL);
+NLNum = numel(NLs);
+
+for i = 2 : 1 : numel(HPVOs)
+    HPVOs{i} = HPVOs{i} + HPVOs{i-1};
+end
+for i = 2 : 1 : numel(HPVOs)
+    HIPVOs{i} = HIPVOs{i} + HIPVOs{i-1};
+end
+
+OptRatio = 1000000;
+OptT1 = 0;
+OptT2 = 0;
+for i = 1 : 1 : NLNum
+    T1 = NLs{i};
+    for j = 1 : 1 : NLNum
+        T2 = NLs{j};
+        EC1 = HPVOs{T1}(1 + 1);
+        EC2 = HIPVOs{T2}(0 + 1);
+        if EC1 + EC2 >= Payload
+            ED1 = 0.5 * HPVOs{T1}(1 + 1) + sum(HPVOs{T1}(1+2 : end));
+            ED2 = 0.5 * HIPVOs{T2}(0 + 1) + sum(HIPVOs{T2}(0+2 : end));
+            Ratio = (ED1+ED2) / (EC1+EC2);
+            if Ratio < OptRatio
+                OptT1 = T1;
+                OptT2 = 0;
+            end
+        end
+    end
+end
+
+end
+
